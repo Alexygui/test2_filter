@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/jquery.js" ></script>
+		<script>
+			$(function(){
+				//简单搜索功能
+				$('#easysearch').keyup(function(){
+					$('tbody>tr')
+							.hide()
+							.filter(':contains("' + $(this).val() + '")')
+							.show();
+				});
+				
+				//隐藏和显示联系方式
+				$('#showcontact').click(function(){
+					if( this.value == "showcontact") {
+						$(this).attr("value","hidecontact")
+						$('.phone').attr('style','display: inline;');
+						$('.qq').attr('style','display: inline;');
+						$(this).html('隐藏联系方式');
+					} else {
+						$(this).attr("value","showcontact")
+						$('.phone').attr('style','display: none;');
+						$('.qq').attr('style','display: none;');
+						$(this).html('显示联系方式');
+					}
+//					if($('.phone').is(':hidden')){
+//						$('.phone').attr('style','display: inline;');
+//						$('.qq').attr('style','display: inline;');
+//						$(this).html('隐藏联系方式');
+//					} else {
+//						$('.phone').attr('style','display: none;');
+//						$('.qq').attr('style','display: none;');
+//						$(this).html('显示联系方式');
+//					}
+				});
+				
+//				//查询功能
+//				$('#complexsearch').click(function(){
+//					var idFilter = $('#idfilter').val();
+//				 	var nameFilter = $('#namefilter').val();
+//					var genderFilter = $('#genderfilter').val();
+//					var positionFilter = $('#positionfilter').val();
+//					var ageFilter = $('#agefilter').val().split('-');
+//					$('tbody>tr').hide();
+//					var $age = $('tbody .age');
+//					for(var i=0; i< $age.length; i++){
+//						if( $age[i].innerHTML>=ageFilter[0] && $age[i].innerHTML<= ageFilter[1]) {
+//							//这个地方不知道怎么按各个类别去进行过滤，就统一用filter过滤了
+//							$('tbody>tr').eq(i)
+//										.filter(":contains('"+idFilter+"')")
+//										.filter(":contains('"+nameFilter+"')")
+//										.filter(":contains('"+genderFilter+"')")
+//										.filter(":contains('"+positionFilter+"')")
+//										.show();
+//						}
+//					}
+//				});
+				
+				
+				//复杂查询功能
+				
+				$('#complexsearch').click(function(){
+					var idFilter = $('#idfilter').val();
+				 	var nameFilter = $('#namefilter').val();
+					var genderFilter = $('#genderfilter').val();
+					var positionFilter = $('#positionfilter').val();
+					var ageFilter = $('#agefilter').val().split('-');
+					var $age = $('tbody .age');
+					$("tbody>tr").show();
+					for(var i=0; i< $age.length; i++){
+						//年龄过滤
+						if( $age[i].innerHTML<ageFilter[0] || $age[i].innerHTML > ageFilter[1]) {
+							$('tbody>tr').eq(i).hide();
+						}
+						
+					}
+					
+						//身份证过滤
+						$(".id").not(":contains('"+idFilter+"')").parent().hide();
+						
+						//姓名过滤
+						$(".name").not(":contains('"+nameFilter+"')").parent().hide();
+						
+						//性别过滤
+						$('.gender').not(":contains('"+genderFilter+"')").parent().hide();
+						
+						//岗位过滤
+						$(".position").not(":contains('"+positionFilter+"')").parent().hide();
+						
+				});
+				
+			});
+		</script>
+	</head>
+	<body>
+		<div><label>简单搜索：</label><input id="easysearch" type="text"/></div>
+		<hr />
+		<div>
+			<label>列表搜索</label><br />
+			<label>按身份证号查询：</label><input id="idfilter" type="text" /><br />
+			<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;按姓名查询：</label><input id="namefilter" type="text" /><br />
+			<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;按性别查询：</label>
+			<select id="genderfilter">
+				<option value="">--性别选择--</option><option>男</option><option>女</option>
+			</select><br />
+			<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;按岗位查询：</label>
+			<select id="positionfilter">
+				<option value="">--岗位选择--</option>
+				<option value="初级程序员">初级程序员</option>
+				<option value="中级程序员">中级程序员</option>
+				<option value="高级程序员">高级程序员</option>
+				<option value="架构师">架构师</option>
+				<option value="项目经理">项目经理</option>
+			</select><br />
+			<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;按年龄查询：</label>
+			<select id="agefilter">
+				<option value="0-99">--年龄选择--</option>
+				<option value="20-29">20-29</option>
+				<option value="30-39">30-39</option>
+				<option value="40-49">40-49</option>
+				<option value="50-99">50以上</option>
+			</select>
+			<br />
+			<button id="complexsearch">查询</button>
+			<button id="showcontact" value="showcontact">显示联系方式</button>
+		</div>
+		<hr />
+		<table border="1" cellspacing="" cellpadding="" >
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>身份证号</th>
+					<th>年龄</th>
+					<th>岗位</th>
+					<th>入职时间</th>
+					<th class="phone" style="display: none;">联系电话</th>
+					<th class="qq" style="display: none;">QQ</th>
+				</tr>
+			</thead>
+			<tbody>
+			
+			<tr><td class='name'>云俊伟</td><td class="gender">男</td><td class="id">511702198807288390</td><td class="age">24</td><td class="position">初级程序员</td><td>2016-05-21</td>
+				<td class="phone" style="display: none;">13877653323</td>
+				<td class="qq" style="display: none;">1028937272</td>
+			</tr>
+			<tr><td class='name'>沈英杰</td><td class="gender">男</td><td class="id">511702198506123795</td><td class="age">25</td><td class="position">中级程序员</td><td>2015-09-12</td>
+				<td class="phone" style="display: none;">18599990469</td>
+				<td class="qq" style="display: none;">2093858923</td>
+			</tr>
+			<tr><td class='name'>平怡畅</td><td class="gender">男</td><td class="id">511702197008231350</td><td class="age">23</td><td class="position">中级程序员</td><td>2015-05-02</td>
+				<td class="phone" style="display: none;">13587628302</td>
+				<td class="qq" style="display: none;">4023840982</td>
+			</tr>
+			<tr><td class='name'>康高爽</td><td class="gender">男</td><td class="id">511702197004241850</td><td class="age">22</td><td class="position">初级程序员</td><td>2015-06-28</td>
+				<td class="phone" style="display: none;">13976623422</td>
+				<td class="qq" style="display: none;">4082585852</td>
+			</tr>
+			<tr><td class='name'>金越彬</td><td class="gender">男</td><td class="id">451025198108207096</td><td class="age">29</td><td class="position">中级程序员</td><td>2014-02-14</td>
+				<td class="phone" style="display: none;">15320285324</td>
+				<td class="qq" style="display: none;">535245</td>
+			</tr>
+			<tr><td class='name'>葛怡宁</td><td class="gender">男</td><td class="id">532628198404266675</td><td class="age">35</td><td class="position">高级程序员</td><td>2015-06-19/td>
+				<td class="phone" style="display: none;">15157263802</td>
+				<td class="qq" style="display: none;">2532355522</td>
+			</tr>
+			<tr><td class='name'>张熙华</td><td class="gender">男</td><td class="id">532628198802137879</td><td class="age">40</td><td class="position">高级程序员</td><td>2015-01-25</td>
+				<td class="phone" style="display: none;">13597263829</td>
+				<td class="qq" style="display: none;">555555</td>
+			</tr>
+			<tr><td class='name'>云俊朗</td><td class="gender">男</td><td class="id">610324198802205073</td><td class="age">55</td><td class="position">架构师</td><td>2012-02-21</td>
+				<td class="phone" style="display: none;">13855239423</td>
+				<td class="qq" style="display: none;">5682737425</td>
+			</tr>
+			<tr><td class='name'>于晴照</td><td class="gender">女</td><td class="id">411525197006172529</td><td class="age">29</td><td class="position">中级程序员</td><td>2015-07-07</td>
+				<td class="phone" style="display: none;">13855234236</td>
+				<td class="qq" style="display: none;">59283855</td>
+			</tr>
+			<tr><td class='name'>王戈雅</td><td class="gender">女</td><td class="id">52263519760422272X</td><td class="age">24</td><td class="position">初级程序员</td><td>2015-05-29</td>
+				<td class="phone" style="display: none;">13987632342</td>
+				<td class="qq" style="display: none;">1235272</td>
+			</tr>
+			<tr><td class='name'>金秀曼</td><td class="gender">女</td><td class="id">522635198403166623</td><td class="age">21</td><td class="position">初级程序员</td><td>2015-04-27</td>
+				<td class="phone" style="display: none;">15923413232</td>
+				<td class="qq" style="display: none;">5235235868</td>
+			</tr>
+			<tr><td class='name'>韩莉莉</td><td class="gender">女</td><td class="id">522635197008278006</td><td class="age">20</td><td class="position">初级程序员</td><td>2015-03-21</td>
+				<td class="phone" style="display: none;">15322342166</td>
+				<td class="qq" style="display: none;">1035358275</td>
+			</tr>
+			<tr><td class='name'>苏湘云</td><td class="gender">女</td><td class="id">52263519830114890X</td><td class="age">32</td><td class="position">高级程序员</td><td>2015-02-14</td>
+				<td class="phone" style="display: none;">15966002930</td>
+				<td class="qq" style="display: none;">1525739523</td>
+			</tr>
+			<tr><td class='name'>韦梦菲</td><td class="gender">女</td><td class="id">522635198708184662</td><td class="age">20</td><td class="position">初级程序员</td><td>2015-01-15</td>
+				<td class="phone" style="display: none;">13842321686</td>
+				<td class="qq" style="display: none;">10252355</td>
+			</tr>
+			<tr><td class='name'>韦梦文</td><td class="gender">女</td><td class="id">120000198605177321</td><td class="age">20</td><td class="position">初级程序员</td><td>2015-01-15</td>
+				<td class="phone" style="display: none;">13825235234</td>
+				<td class="qq" style="display: none;">234223455</td>
+			</tr>
+			
+			</tbody>
+		</table>
+	</body>
+</html>
